@@ -5,4 +5,6 @@ const recordController = new RecordController();
 
 router.get('/', recordController.index);
 
+router.post('/', recordController.create);
+
 module.exports = router;
