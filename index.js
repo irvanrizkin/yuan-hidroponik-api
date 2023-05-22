@@ -2,6 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
+const recordRoutes = require('./src/routes/record.route');
+
 const app = express();
 
 app.use(cors());
@@ -16,6 +18,8 @@ app.get('/', (_, res) => {
     }
   );
 });
+
+app.use('/records', recordRoutes);
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
