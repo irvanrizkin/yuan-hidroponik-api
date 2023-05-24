@@ -33,6 +33,7 @@ app.get('/actions/ssr/:status', actionController.changeSsrState.bind(actionContr
 app.use('/records', recordRoutes);
 
 const PORT = process.env.PORT || 8000;
+const MODE = process.env.MODE;
 app.listen(PORT, () => {
-  console.log(`Running in port ${PORT}`);
+  console.log(`Running in port ${PORT} in ${MODE} mode`);
 })
