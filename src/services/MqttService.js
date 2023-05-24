@@ -18,14 +18,17 @@ class MqttService {
     })
 
     this.mqttClient.subscribe(process.env.MQTT_TOPIC_RECORD);
+    this.mqttClient.subscribe(process.env.MQTT_TOPIC_ACTION);
 
     this.mqttClient.on('message', async (topic, message) => {
-      const result = message.toString().split(';');
-      await Record.create({
-        ppm: result[0],
-        temperature: result[1],
-        source: 'mqtt',
-      })
+      if (topic === process.env.TOPIC_RECORD) {
+        const result = message.toString().split(';');
+        await Record.create({
+          ppm: result[0],
+          temperature: result[1],
+          source: 'mqtt',
+        })
+      }
     });
 
     this.mqttClient.on('error', (error) => {
@@ -35,6 +38,10 @@ class MqttService {
     this.mqttClient.on('close', () => {
       console.log(`mqtt client disconnected`);
     });
+  }
+
+  sendMessage (message) {
+    this.mqttClient.publish(process.env.MQTT_TOPIC_ACTION, message);
   }
 }
 
