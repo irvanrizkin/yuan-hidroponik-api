@@ -26,7 +26,7 @@ class MqttService {
           const result = message.toString().split(';');
           await Record.create({
             ppm: result[0],
-            temperature: result[1],
+            temperature: Math.max(Number(result[1]), 0),
             source: 'mqtt',
           })
         }
