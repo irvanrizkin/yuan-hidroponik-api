@@ -21,13 +21,17 @@ class MqttService {
     this.mqttClient.subscribe(process.env.MQTT_TOPIC_ACTION);
 
     this.mqttClient.on('message', async (topic, message) => {
-      if (topic === process.env.MQTT_TOPIC_RECORD) {
-        const result = message.toString().split(';');
-        await Record.create({
-          ppm: result[0],
-          temperature: result[1],
-          source: 'mqtt',
-        })
+      try {
+        if (topic === process.env.MQTT_TOPIC_RECORD) {
+          const result = message.toString().split(';');
+          await Record.create({
+            ppm: result[0],
+            temperature: result[1],
+            source: 'mqtt',
+          })
+        }
+      } catch (error) {
+        console.log(error);
       }
     });
 
