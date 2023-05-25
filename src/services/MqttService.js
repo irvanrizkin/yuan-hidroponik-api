@@ -21,7 +21,7 @@ class MqttService {
     this.mqttClient.subscribe(process.env.MQTT_TOPIC_ACTION);
 
     this.mqttClient.on('message', async (topic, message) => {
-      if (topic === process.env.TOPIC_RECORD) {
+      if (topic === process.env.MQTT_TOPIC_RECORD) {
         const result = message.toString().split(';');
         await Record.create({
           ppm: result[0],
